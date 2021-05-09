@@ -90,9 +90,61 @@ describe('DELETE /users/:id는', () => {
         // 실패 Ⅱ. id로 유저를 찾을 수 없을 경우 404를 응답
         it('id로 유저를 찾을 수 없을 경우 404를 응답 ', (done) => {
             request(app)
-                .get('/users/999')
+                .delete('/users/999')
                 .expect(404)
                 .end(done);
         })
     })
 });
+
+describe('POST /users', () => {
+    describe('성공 시', () => {
+        let name = 'dddd';
+        let body;
+
+        // 성공 Ⅰ. 201을 응답
+        before(done => {
+            request(app)
+                .post('/users')
+                .send({name: name})
+                .expect(201)
+                .end((err, res) => {
+                    body = res.body;
+                    done();
+                });
+        })
+        /*
+            post 3개 테스트하면 데이터 중복해서 쌓이는 경우가 발생
+            spring에서 @afterEach로 clear하는 경우가 있는데
+            이번에는 before로 미리 값을 넣어주면서 상태 코드(201)를 확인하고
+            반환받은 body와 함께 이후 테스트 진행
+        */
+
+        // 성공 Ⅱ. 생성된 유저 객체를 반환
+        it('생성된 유저 객체를 반환 ', () => {
+            body.should.have.property('id');
+        })
+        // 성공 Ⅲ. 입력한 name을 반환
+        it('입력한 name을 반환 ', () => {
+            body.should.have.property('name', name);
+        })
+    })
+    describe('실패 시', () => {
+        // 실패 Ⅰ. name 누락 시 400을 응답
+        it('name 누락 시 400을 응답 ', (done) => {
+            request(app)
+                .post('/users')
+                .send({})
+                .expect(400)
+                .end(done);
+        })
+        // 실패 Ⅱ. name 중복 시 409를 응답
+        it('name 중복 시 409를 응답 ', (done) => {
+            request(app)
+                .post('/users')
+                .send({name: 'dddd'})
+                .expect(409)
+                .end(done);
+        })
+    })
+})
