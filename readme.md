@@ -14,8 +14,12 @@
 - https://github.com/tj/should.js/
 - https://shouldjs.github.io/
 
-### superTest
-
+### SuperTest
+- 단위 테스트 : 함수의 기능 테스트
+- 통합 테스트 : API의 기능 테스트
+- SuperTest는 Express 통합 테스트용 라이브러리
+- 내부적으로 익스프레스 서버를 구동시켜 실제 요청을 보낸 뒤 결괄를 전송
+- https://github.com/visionmedia/supertest
 
 #### Install
 - --save-dev 옵션으로 devDependencies에 추가
