@@ -23,3 +23,13 @@
 
 #### Install
 - --save-dev 옵션으로 devDependencies에 추가
+
+## 사용자 목록 조회 API 테스트 (GET /users)
+### 요구사항
+- 성공
+    - Ⅰ. 유저 객체를 담은 배열로 응답
+    - Ⅱ. 최대 limit 갯수만큼 응답
+
+- 실패
+    - Ⅰ. limit이 숫자형이 아니면 400을 응답
+    - Ⅱ. offset이 숫자형이 아니면 400을 응답
