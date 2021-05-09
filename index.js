@@ -69,6 +69,31 @@ app.post('/users', (req, res) => {
     res.status(201).json(user);
 })
 
+app.put('/users/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    if (Number.isNaN(id)) {
+        return res.status(400).end();
+    }
+
+    const name = req.body.name;
+    if (!name) {
+        return res.status(400).end();
+    }
+    const isConflict = users.filter(user => user.name === name).length;
+    if (isConflict) {
+        return res.status(409).end();
+    }
+
+    const user = users.filter((user) => user.id === id)[0];
+    if (!user) {
+        return res.status(404).end();
+    }
+
+    user.name = name;
+    
+    res.json(user);
+})
+
 app.listen(3000, () => {
     console.log("Listening on port 3000");
 });

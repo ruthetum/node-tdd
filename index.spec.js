@@ -148,3 +148,52 @@ describe('POST /users', () => {
         })
     })
 })
+
+describe('PUT /users/:id', () => {
+    describe('성공 시', () => {
+        const name = 'cdcd';
+        // 성공 Ⅰ. 변경된 정보를 반환
+        it('변경된 정보를 반환 ', (done) => {
+            request(app)
+                .put('/users/3')
+                .send({name})
+                .end((err, res) => {
+                    res.body.should.have.property('name', name);
+                    done();
+                });
+        })
+    })
+    describe('실패 시', () => {
+        // 실패 Ⅰ. 정수가 아닌 id일 경우 400을 응답
+        it('정수가 아닌 id일 경우 400을 응답 ', (done) => {
+            request(app)
+                .put('/users/three')
+                .expect(400)
+                .end(done);
+        })
+        // 실패 Ⅱ. name이 없을 경우 400을 응답
+        it('name이 없을 경우 400을 응답 ', (done) => {
+            request(app)
+                .put('/users/3')
+                .send({})
+                .expect(400)
+                .end(done);
+        })
+        // 실패 Ⅲ. 없는 유저일 경우 404를 응답
+        it('없는 유저일 경우 404를 응답 ', (done) => {
+            request(app)
+                .put('/users/999')
+                .send({name: "caca"})
+                .expect(404)
+                .end(done);
+        })
+        // 실패 Ⅳ. 이름이 중복일 경우 409를 응답
+        it('이름이 중복일 경우 409를 응답 ', (done) => {
+            request(app)
+                .put('/users/3')
+                .send({name: 'bbbb'})
+                .expect(409)
+                .end(done);
+        })
+    })
+})
