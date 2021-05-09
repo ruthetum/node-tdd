@@ -36,3 +36,35 @@ describe('GET /users는', () => {
         })
     })
 });
+
+describe('GET /users/:id는', () => {
+    describe('성공 시', () => {
+        // 성공 Ⅰ. id가 1인 유저 객체를 반환
+        it('id가 1인 유저 객체를 반환 ', (done) => {
+            request(app)
+                .get('/users/1')
+                .end((err, res) => {
+                    res.body.should.have.property('id', 1);
+                    done();
+                });
+        })
+    })
+
+    describe('실패 시', () => {
+        // 실패 Ⅰ. id가 숫자가 아닐 경우 400을 응답
+        it('id가 숫자가 아닐 경우 400을 응답 ', (done) => {
+            request(app)
+                .get('/users/one')
+                .expect(400)
+                .end(done);
+        })
+
+        // 실패 Ⅱ. id로 유저를 찾을 수 없을 경우 404를 응답
+        it('id로 유저를 찾을 수 없을 경우 404를 응답 ', (done) => {
+            request(app)
+                .get('/users/999')
+                .expect(404)
+                .end(done);
+        })
+    })
+});
