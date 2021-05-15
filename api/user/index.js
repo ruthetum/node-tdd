@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 const ctrl = require('./user.crtl');
 
-router.get('/', ctrl.selectAllUsers);
-router.get('/:id', ctrl.selectUser);
-router.delete('/:id', ctrl.deleteUser);
-router.post('', ctrl.createUser);
-router.put('/:id', ctrl.updateUser);
+router.get('/', ctrl.index);
+router.get('/:id', ctrl.show);
+router.delete('/:id', ctrl.destroy);
+router.post('', ctrl.create);
+router.put('/:id', ctrl.update);
 
 module.exports = router;
