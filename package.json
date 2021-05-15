@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "mocha api/user/user.spec.js"
+    "start": "node bin/www.js",
+    "test": "Node_ENV=test mocha api/user/user.spec.js"
   },
   "repository": {
     "type": "git",

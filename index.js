@@ -4,7 +4,11 @@ const morgan = require('morgan');
 const app = express();
 const user = require('./api/user');
 
-app.use(morgan('dev'));
+if (process.env.NODE_ENV !== 'test') {
+    // NODE_ENV가 test가 아닐 때만 서버 로그를 출력
+    // 테스트 환경에선 서버 로그 출력 X
+    app.use(morgan('dev'));
+}
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 /*
@@ -15,9 +19,5 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/users', user);
-
-app.listen(3000, () => {
-    console.log("Listening on port 3000");
-});
 
 module.exports = app;
