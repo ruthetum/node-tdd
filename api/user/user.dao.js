@@ -1,5 +1,5 @@
 // DAO
-const { pool } = require('../../database');
+const { pool } = require('../../config/database');
 
 selectAllUsers = async (limit) => {
     const connection = await pool.getConnection(async (conn) => conn);
